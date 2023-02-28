@@ -1,0 +1,20 @@
+extends layout 
+
+block content
+  h1 #{title}: #{book.title}
+
+  if bookinstances_book.length
+    p #[strong Delete the following books before attempting to delete this author.]
+
+    ul
+      each val in bookinstances_book
+        li 
+          a(href=val.url) #{val.book.title}: #{val.imprint} 
+          | #{val.status}
+
+  else 
+    p Do you really want to delete this genre?
+
+    form(method='POST' action='')
+      input(type='hidden' required=true name='bookid' value=book._id)
+      button.btn.btn-primary(type='submit') Delete 
