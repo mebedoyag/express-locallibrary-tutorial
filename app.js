@@ -12,14 +12,17 @@ const compression = require("compression");
 const helmet = require("helmet");
 
 require('dotenv').config();
-const { DB_USER, DB_PASSWORD } = process.env;
+const { DB_USER, DB_PASSWORD, MONGODB_URI } = process.env;
 
 var app = express();
 
 // Set up mongoose connection
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-const mongoDB = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.pmp4mky.mongodb.net/local_library?retryWrites=true&w=majority`;
+
+const devDBUrl = 
+  `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.pmp4mky.mongodb.net/local_library?retryWrites=true&w=majority`;
+const mongoDB = MONGODB_URI || devDBUrl;
 
 async function main() {
   await mongoose.connect(mongoDB);
